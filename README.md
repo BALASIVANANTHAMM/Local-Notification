@@ -1,16 +1,89 @@
-# noti
+📢 Flutter Local Notifications
+A Flutter application demonstrating how to implement local notifications using the flutter_local_notifications package.
 
-A new Flutter project.
+📝 Features
+Schedule notifications
 
-## Getting Started
+Show instant notifications
 
-This project is a starting point for a Flutter application.
+Custom notification sounds
 
-A few resources to get you started if this is your first Flutter project:
+Handle notification interactions
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Notification with action buttons
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🚀 Installation & Setup
+1️⃣ Add Dependency
+Add the package to your pubspec.yaml file:
+
+yaml
+dependencies:
+  flutter_local_notifications: latest_version
+Then, run:
+
+sh
+flutter pub get
+2️⃣ Android Setup
+Modify AndroidManifest.xml to request notification permissions:
+
+xml
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+3️⃣ iOS Setup
+For iOS, update Info.plist with:
+
+xml
+<key>UIBackgroundModes</key>
+<array>
+    <string>fetch</string>
+    <string>remote-notification</string>
+</array>
+🎯 Usage
+Initialize Notifications
+dart
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+void initializeNotifications() {
+  var androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+  var iosSettings = DarwinInitializationSettings();
+  
+  var initSettings = InitializationSettings(
+    android: androidSettings,
+    iOS: iosSettings,
+  );
+
+  flutterLocalNotificationsPlugin.initialize(initSettings);
+}
+Show a Notification
+dart
+void showNotification() async {
+  var androidDetails = AndroidNotificationDetails(
+    'channel_id',
+    'Local Notification',
+    'Description of notification',
+    importance: Importance.high,
+    priority: Priority.high,
+  );
+  
+  var iosDetails = DarwinNotificationDetails();
+  
+  var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
+  
+  await flutterLocalNotificationsPlugin.show(
+    0, 
+    'Hello!', 
+    'This is a local notification.', 
+    details,
+  );
+}
+
+
+💡 References
+flutter_local_notifications package
+
+Official Flutter documentation
+
+🛠️ License
+This project is licensed under the MIT License.
+
+Feel free to use, modify, and contribute! 🚀
